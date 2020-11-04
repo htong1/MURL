@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>repl.it</title>
+  <script src="script.js"></script>
+<style>
+body{
+  background-color: FireBrick;
+}
+
+h1 {
+  color: white;
+  font-family: cursive;
+  text-align: center;
+}
+
+.disBtn {
+  background-color: FireBrick;
+  color: white;
+  font-family: cursive;
+}
+
+p{
+color: white;
+font-family: cursive;
+ text-align: center;
+}
+</style>
+</head>
+
+<body onload="extractToken()">
+	<h1> MicroURL :D</h1>
+	<p> We shorten your urls with a click. Simple. </p>
+<textarea id="url" rows="4" cols="50"></textarea>
+<br>
+<br>
+    <button type = "button" class = "disBtn" onclick = "shorten()"> Shorten! </button>
+    <br>
+    <br>
+    <div id = "microURL"></div>
+  </body>
+</html>
