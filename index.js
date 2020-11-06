@@ -25,8 +25,11 @@ app.get('/:tokenizer/:longUrl', (req, res) => {
   let longUrl = req.params.longUrl;
   let urlResponse = "this is not read:" + longUrl;
   console.log(longUrl);
+  let dUrl = Buffer.from(longUrl, "base64");
+  dUrl  = dUrl.toString("utf8");
   let sUrl = req.protocol + "://" + req.hostname + "/" + createToken()
-  console.log(sUrl)
+  console.log(sUrl);
+  console.log(dUrl);
 res.json({"shortenUrl":sUrl})
 
 })
@@ -35,8 +38,8 @@ app.get('/:token', (req, res) => {
 /* This endpoint accepts a token from the short Url. This retreives the long url and redirects the user to it */
   let token = req.params.token;
   let tokenOutput = "this is read from url:" + token;
-  console.log(req.protocol + "://" + req.hostname + "/" + token)
-  res.redirect('http://google.com')
+  console.log(req.protocol + "://" + req.hostname + "/" + token);
+  res.redirect('https://news.google.com');
 
 })
 
