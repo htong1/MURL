@@ -27,6 +27,6 @@ fetch(uRl)
 .then(response => response.json())
 
 .then(res => {
-result.innerHTML = res.value;
+result.innerHTML = res.shortenUrl;
 })
 }
