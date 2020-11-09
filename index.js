@@ -20,28 +20,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 // load the files that are in the public directory
 
-app.get('/:tokenizer/:longUrl', (req, res) => {
+app.get('/tokenizer/:longUrl', (req, res) => {
 /* This endpoint accepts a longUrl, creates a unique token corrosponding to the long url. Stores the mapping  between the two. Returns the token for constructinng the short url. */
   let longUrl = req.params.longUrl;
-  let urlResponse = "this is not read:" + longUrl;
   console.log(longUrl);
   let dUrl = Buffer.from(longUrl, "base64");
   dUrl  = dUrl.toString("utf8");
-  let sUrl = req.protocol + "://" + req.hostname + "/" + createToken()
+  let token = createToken();
+  let sUrl = req.protocol + "://" + req.hostname + "/" + token;
   console.log(sUrl);
   console.log(dUrl);
+  db.set(token, dUrl, {raw:true});
 res.json({"shortenUrl":sUrl})
-
 })
+
+//db.set(token, dUrl).then(() => {});
+//db.get("key").then(value => {});
+
 
 app.get('/:token', (req, res) => {
-/* This endpoint accepts a token from the short Url. This retreives the long url and redirects the user to it */
+/* This endpoint accepts a token from the short Url. This retrieves the long url and redirects the user to it */
+  //let token = req.params.token;
   let token = req.params.token;
-  let tokenOutput = "this is read from url:" + token;
-  console.log(req.protocol + "://" + req.hostname + "/" + token);
-  res.redirect('https://news.google.com');
+  console.log(token);
+  console.log(req.protocol + "://" + req.hostname + token);
+  console.log(req.protocol);
+  db.get(token, {raw:true}).then(longer => {console.log(longer); res.redirect(longer.slice(1))});
+});
 
-})
 
 app.listen(3000, () => console.log('server started' + new Date()));
 
@@ -52,4 +58,4 @@ function createToken() {
         token += charMap[Math.floor(Math.random() * 62)];
     }
     return token;
-}
+};
