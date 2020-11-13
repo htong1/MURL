@@ -27,29 +27,21 @@ res.redirect("https://www.youtube.com/favicon.ico");
 app.get('/tokenizer/:longUrl', (req, res) => {
 /* This endpoint accepts a longUrl, creates a unique token corrosponding to the long url. Stores the mapping  between the two. Returns the token for constructinng the short url. */
   let longUrl = req.params.longUrl;
-  let dUrl = decodeURIComponent(longUrl);
-  dUrl = Buffer.from(dUrl, "base64");
-  dUrl  = dUrl.toString("utf8");
   let token = createToken();
   let sUrl = req.protocol + "://" + req.hostname + "/" + token;
-  console.log(dUrl);
-  db.set(token, {token: dUrl});
+  console.log(longUrl);
+  db.set(token, longUrl);
   res.json({"shortenUrl":sUrl})
 })
-
-//db.set(token, dUrl).then(() => {});
-//db.get("key").then(value => {});
-
 
 app.get('/:token', (req, res) => {
 /* This endpoint accepts a token from the short Url. This retrieves the long url and redirects the user to it */
   //let token = req.params.token;
   let token = req.params.token;
-  console.log(token);
+  console.log("hiiiii" + token);
   console.log(req.protocol + "://" + req.hostname + "/" + token);
-  db.get(token).then(longer => {console.log(longer.token); res.redirect(longer.token)});
+  db.get(token).then(longer => {console.log(longer); let dUrl = decodeURIComponent(longer); dUrl = Buffer.from(dUrl, "base64"); dUrl  = dUrl.toString("utf8");res.redirect(dUrl)});
 });
-
 
 app.listen(3000, () => console.log('server started' + new Date()));
 
