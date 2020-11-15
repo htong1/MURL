@@ -40,7 +40,9 @@ app.get('/:token', (req, res) => {
   let token = req.params.token;
   console.log("hiiiii" + token);
   console.log(req.protocol + "://" + req.hostname + "/" + token);
-  db.get(token).then(longer => {console.log(longer); let dUrl = decodeURIComponent(longer); dUrl = Buffer.from(dUrl, "base64"); dUrl  = dUrl.toString("utf8");res.redirect(dUrl)});
+  db.get(token).then(longer => {console.log(longer); if(longer == null){
+    res.redirect("https://yay.htong1.repl.co/");
+  } else {let dUrl = decodeURIComponent(longer); dUrl = Buffer.from(dUrl, "base64"); dUrl  = dUrl.toString("utf8");res.redirect(dUrl)}});
 });
 
 app.listen(3000, () => console.log('server started' + new Date()));

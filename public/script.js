@@ -1,12 +1,23 @@
 function shorten() {
   debugger;
     let url = document.getElementById("url").value;
-    getLongURl(url);
+    let result = document.getElementById("microURL");
+    is_url(url, result);
 }
 
-function getLongURl(url){
+function is_url(url, result){
+  try {
+  new URL(url)
+    getLongURl();
+} catch (error) {
+  result.innerHTML = "Please make sure your url is valid.";
+}
+}
+
+function getLongURl(){
 let result = document.getElementById("microURL");
-let encodedUrl = btoa(url);
+let url = document.getElementById("url").value;
+  let encodedUrl = btoa(url);
 encodedUrl = encodeURIComponent(encodedUrl);
 let uRl = "/tokenizer/" + encodedUrl;
 fetch(uRl)
